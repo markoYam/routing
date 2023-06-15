@@ -8,15 +8,15 @@ if (isset($_GET['action'])) {
     $action = $_GET['action'];
 }
 
-$estatus = new tbl_estatus();
+$repartidores = new tbl_repartidores();
 
 switch ($action) {
     case 'getAll':
-        $estatus->getAll();
+        $repartidores->getAll();
         break;
     case 'getById':
-        $estatus->idEstatus =  $_GET['idEstatus'];
-        $estatus->getById();
+        $repartidores->idRepartidor =  $_GET['idRepartidor'];
+        $repartidores->getById();
         break;
     case 'Create':
         create();
@@ -25,11 +25,11 @@ switch ($action) {
         update();
         break;
     case 'Delete':
-        $estatus->idEstatus =  $_GET['idEstatus'];
-        $estatus->delete();
+        $repartidores->idRepartidor =  $_GET['idrepartidore'];
+        $repartidores->delete();
         break;
     default:
-        $estatus->getAll();
+        $repartidores->getAll();
         break;
 }
 
@@ -46,9 +46,9 @@ function create()
         }
 
         $repartidores = new tbl_repartidores();
-        $repartidores->nbRepartidores = $obj['nbRepartidores'];
+        $repartidores->nbRepartidor = $obj['nbRepartidores'];
 
-        $estatus->Create();
+        $repartidores->Create();
     } catch (Exception $e) {
         Utils::Response(0, "Error al crear el registro: " . $e, null);
     }
@@ -67,10 +67,10 @@ function update()
         }
 
         $repartidores = new tbl_repartidores();
-        $repartidores->idRepartidores = $obj['idRepartidores'];
-        $repartidores->nbRepartidores = $obj['nbRepartidores'];
+        $repartidores->idRepartidor = $obj['idRepartidores'];
+        $repartidores->nbRepartidor = $obj['nbRepartidores'];
        
-        $estatus->Update();
+        $repartidores->Update();
     } catch (Exception $e) {
         Utils::Response(0, "Error al actualizar el registro: " . $e, null);
     }
