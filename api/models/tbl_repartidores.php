@@ -94,4 +94,45 @@ class tbl_repartidores
             Utils::Response(0, "Error al insertar el registro: " . $e, null);
         }
     }
+
+        //Update 
+    function update()
+    {
+        try {
+            //prevent sql injection
+            $this->idRepartidor = mysqli_real_escape_string($GLOBALS['conn'], $this->idRepartidor);
+            $this->nbRepartidor = mysqli_real_escape_string($GLOBALS['conn'], $this->nbRepartidor);
+
+            $query = "UPDATE tbl_repartidores SET nbRepartidor = '$this->nbRepartidor' WHERE idRepartidor = '$this->idRepartidor'";
+            $result = mysqli_query($GLOBALS['conn'], $query);
+
+            if ($result) {
+                Utils::Response(1, "Operación realizada con éxito", null);
+            } else {
+                Utils::Response(0, "Error al actualizar el registro", null);
+            }
+        } catch (Exception $e) {
+            Utils::Response(0, "Error al actualizar el registro: " . $e, null);
+        }
+    }
+        //Delete 
+    function delete()
+    {
+        try {
+            //prevent sql injection
+            $this->idRepartidor = mysqli_real_escape_string($GLOBALS['conn'], $this->idRepartidor);
+
+            $query = "DELETE FROM tbl_repartidores WHERE idRepartidor = '$this->idRepartidor'";
+            $result = mysqli_query($GLOBALS['conn'], $query);
+
+            if ($result) {
+                Utils::Response(1, "Operación realizada con éxito", null);
+            } else {
+                Utils::Response(0, "Error al eliminar el registro", null);
+            }
+        } catch (Exception $e) {
+            Utils::Response(0, "Error al eliminar el registro: " . $e, null);
+        }
+    }
+
 }

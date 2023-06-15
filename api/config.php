@@ -2,7 +2,7 @@
 $username = 'root';
 $password = '';
 $dbname = 'db_routing';
-$servername = 'localhost';
+$servername = '192.168.1.100';
 
 
 $conn = mysqli_connect($servername, $username, $password, $dbname);
