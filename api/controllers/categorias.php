@@ -25,7 +25,7 @@ switch ($action) {
         update();
         break;
     case 'Delete':
-        $categoria->idCategoria =  $_GET['idcategoria'];
+        $categoria->idCategoria =  $_GET['idCategoria'];
         $categoria->delete();
         break;
     default:
