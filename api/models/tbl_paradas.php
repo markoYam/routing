@@ -1,6 +1,6 @@
 <?php 
 include '../config.php'; 
-include 'tbl_estatus.php';
+
 class tbl_paradas{
 
     public $idParada;
@@ -9,13 +9,15 @@ class tbl_paradas{
     public $dcLatitud;
     public $dcLongitud;
     public $desDireccion;
-    public $idRuta;
+    public $idRuteo;
     public $idRepartidor;
     public $idEstatus;
     public $dcPrecioCompra;
     public $dcPrecioVenta;
     public $dcTotal;
     public $estatus;
+    public $ruteo;
+    public $repartidor;
 
     function __construct()
     {
@@ -37,7 +39,7 @@ class tbl_paradas{
                 $paradas->dcLatitud = $row['dcLatitud'];
                 $paradas->dcLongitud = $row['dcLongitud'];
                 $paradas->desDireccion = $row['desDireccion'];
-                $paradas->idRuta = $row['idRuta'];
+                $paradas->idRuta = $row['idRuteo'];
                 $paradas->idRepartidor = $row['idRepartidor'];
                 $paradas->idEstatus = $row['idEstatus'];
                 $paradas->dcPrecioCompra = $row['dcPrecioCompra'];
@@ -53,10 +55,47 @@ class tbl_paradas{
                     $estatus->idEstatus = $rowEstatus['idEstatus'];
                     $estatus->nbEstatus = $rowEstatus['nbEstatus'];
                     $estatus->nbModulo = $rowEstatus['nbModulo'];
-
                     $paradas->estatus = $estatus;
+                    
                 }
-                array_push($array, $paradas);
+
+                $queryRepartidor = "SELECT * FROM tbl_repartidores WHERE idRepartidor = '$paradas->idRepartidor'";
+
+                $resultRepartidor = mysqli_query($GLOBALS['conn'], $queryRepartidor);
+                
+                while ($rowRepartidor = mysqli_fetch_array($resultRepartidor)) {
+                    $paradas = new tbl_repartidores();
+                    $paradas->idRepartidor = $rowRepartidor['idRepartidor'];
+                    $paradas->nbRepartidor = $rowRepartidor['nbRepartidor'];
+                    $paradas->repartidor = $repartidor;
+                }
+
+
+
+
+
+
+                $queryRuteo = "SELECT * FROM tbl_ruteo WHERE idRuteo = '$paradas->idRuteo'";
+
+                $resultRuteo = mysqli_query($GLOBALS['conn'], $queryRuteo);
+                
+                while ($rowRuteo = mysqli_fetch_array($resultRuta)) {
+                    $rutas = new tbl_ruteo();
+                    $rutas->idParada = $rowRuteo['idParada'];
+                    $rutas->nbParada = $rowRuteo['nbParada'];
+                    $rutas->desParada = $rowRuteo['desParada'];
+                    $rutas->dcLatitud = $rowRuteo['dcLatitud'];
+                    $rutas->dcLongitud = $rowRuteo['dcLongitud'];
+                    $rutas->desDireccion = $rowRuteo['desDireccion'];
+                    $rutas->idRuta = $rowRuteo['idRuteo'];
+                    $rutas->idRepartidor = $rowRuteo['idRepartidor'];
+                    $rutas->idEstatus = $rowRuteo['idEstatus'];
+                    $rutas->dcPrecioCompra = $rowRuteo['dcPrecioCompra'];
+                    $rutas->dcPrecioVenta = $rowRuteo['dcPrecioVenta'];
+                    $rutas->dcTotal = $rowRuteo['dcTotal'];
+                    $rutas->ruteo = $ruteo;
+                }
+                array_push($array, $rutas);
             }
 
             if (count($array) == 0) {
@@ -64,9 +103,12 @@ class tbl_paradas{
             } else {
                 Utils::Response(1, "Operación realizada con éxito", $array);
             }
-        } catch (Exception $e) {
+        }
+        
+         catch (Exception $e) {
             Utils::Response(0, "Error al obtener el registro: " . $e, null);
         }
+
     }
 
     //getById
