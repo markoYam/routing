@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:routing_app/app/modules/home/cubit/home_cubit.dart';
+import 'package:routing_app/app/modules/categorias/cubit/categorias_cubit.dart';
 import 'package:routing_app/data/model/categorias_model.dart';
 import 'package:routing_app/widgets/custom_button_widget.dart';
 import 'package:routing_app/widgets/text_field_outline.dart';
@@ -17,22 +17,22 @@ class NuevaCategoriaPage extends StatefulWidget {
 class _NuevaCategoriaPageState extends State<NuevaCategoriaPage> {
   final TextEditingController nbCategoriaController = TextEditingController();
 
-  late HomeCubit homeCubit;
+  late CategoriasCubit homeCubit;
 
   @override
   Widget build(BuildContext context) {
     nbCategoriaController.text = widget.categoria?.nbCategoria ?? '';
     return BlocProvider(
-      create: (context) => HomeCubit(),
+      create: (context) => CategoriasCubit(),
       child: Scaffold(
         appBar: AppBar(
           title: Text(
               '${widget.categoria?.idCategoria == 0 ? 'Nueva' : 'Editar'} Categoría'),
           centerTitle: true,
         ),
-        body: BlocBuilder<HomeCubit, HomeState>(
+        body: BlocBuilder<CategoriasCubit, HomeState>(
           builder: (context, state) {
-            homeCubit = context.read<HomeCubit>();
+            homeCubit = context.read<CategoriasCubit>();
 
             return Padding(
               padding: const EdgeInsets.all(20),
@@ -48,6 +48,7 @@ class _NuevaCategoriaPageState extends State<NuevaCategoriaPage> {
                   TextFieldOutLine(
                     hintText: 'Nombre',
                     controller: nbCategoriaController,
+                    prefixIcon: Icon(Icons.text_fields),
                   ),
                   Padding(
                     padding: EdgeInsets.only(top: 20),

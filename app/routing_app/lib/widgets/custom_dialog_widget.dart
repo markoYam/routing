@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:routing_app/core/utils/utils.dart';
 
 class CustomDialog extends StatelessWidget {
   const CustomDialog({
@@ -21,7 +22,7 @@ class CustomDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: Text(title),
+      title: Text(title, style: TextStyle(color: Colors.black)),
       content: Row(
         children: [
           if (type == DialogType.error)
@@ -49,7 +50,7 @@ class CustomDialog extends StatelessWidget {
               size: 40,
             ),
           SizedBox(width: 10),
-          Expanded(child: Text(message)),
+          Expanded(child: Text(message, style: TextStyle(color: Colors.black))),
         ],
       ),
       actions: [
@@ -65,11 +66,4 @@ class CustomDialog extends StatelessWidget {
       ],
     );
   }
-}
-
-enum DialogType {
-  error,
-  success,
-  warning,
-  info,
 }

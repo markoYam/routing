@@ -13,6 +13,7 @@ class tbl_ruteo
     public $idCategoria;
     public $estatus;
     public $categoria;
+    public $numParadas;
 
     function __construct()
     {
@@ -34,6 +35,12 @@ class tbl_ruteo
                 $ruteo->feEntrega = $row['feEntrega'];
                 $ruteo->idEstatus = $row['idEstatus'];
                 $ruteo->idCategoria = $row['idCategoria'];
+
+                $queryNumParadas = "SELECT COUNT(*) AS numParadas FROM tbl_paradas WHERE idRuta = '$ruteo->idRuteo'";
+                $resultNumParadas = mysqli_query($GLOBALS['conn'], $queryNumParadas);
+                $rowNumParadas = mysqli_fetch_array($resultNumParadas);
+                $ruteo->numParadas = $rowNumParadas['numParadas'];
+
                 
                 $queryEstatus = "SELECT * FROM tbl_estatus WHERE idEstatus = '$ruteo->idEstatus'";
 
@@ -72,6 +79,41 @@ class tbl_ruteo
             Utils::Response(0, "Error al obtener el registro: " . $e, null);
         }
     }
+    function getByIdCategoria(){
+        try {
+            //prevent sql injection
+            $this->idCategoria = mysqli_real_escape_string($GLOBALS['conn'], $this->idCategoria);
+
+            $query = "SELECT * FROM tbl_ruteo WHERE idCategoria = '$this->idCategoria'";
+            $result = mysqli_query($GLOBALS['conn'], $query);
+
+            $array = array();
+            while ($row = mysqli_fetch_array($result)) {
+                $ruteo = new tbl_ruteo();
+                $ruteo->idRuteo = $row['idRuteo'];
+                $ruteo->nbRuteo = $row['nbRuteo'];
+                $ruteo->feRegistro = $row['feRegistro'];
+                $ruteo->feEntrega = $row['feEntrega'];
+                $ruteo->idEstatus = $row['idEstatus'];
+                $ruteo->idCategoria = $row['idCategoria'];
+
+                $queryNumParadas = "SELECT COUNT(*) AS numParadas FROM tbl_paradas WHERE idRuta = '$ruteo->idRuteo'";
+                $resultNumParadas = mysqli_query($GLOBALS['conn'], $queryNumParadas);
+                $rowNumParadas = mysqli_fetch_array($resultNumParadas);
+                $ruteo->numParadas = $rowNumParadas['numParadas'];
+
+                array_push($array, $ruteo);
+            }
+
+            if (count($array) == 0) {
+                Utils::Response(0, "No se encontraron registros", null);
+            } else {
+                Utils::Response(1, "Operación realizada con éxito", $array);
+            }
+        } catch (Exception $e) {
+            Utils::Response(0, "Error al obtener el registro: " . $e, null);
+        }
+    }
     //getById
     function getById()
     {
@@ -91,6 +133,12 @@ class tbl_ruteo
                 $ruteo->feEntrega = $row['feEntrega'];
                 $ruteo->idEstatus = $row['idEstatus'];
                 $ruteo->idCategoria = $row['idCategoria'];
+
+                $queryNumParadas = "SELECT COUNT(*) AS numParadas FROM tbl_paradas WHERE idRuta = '$ruteo->idRuteo'";
+                $resultNumParadas = mysqli_query($GLOBALS['conn'], $queryNumParadas);
+                $rowNumParadas = mysqli_fetch_array($resultNumParadas);
+                $ruteo->numParadas = $rowNumParadas['numParadas'];
+
                 array_push($array, $ruteo);
             }
 
@@ -122,6 +170,12 @@ class tbl_ruteo
                 $ruteo->feEntrega = $row['feEntrega'];
                 $ruteo->idEstatus = $row['idEstatus'];
                 $ruteo->idCategoria = $row['idCategoria'];
+
+                $queryNumParadas = "SELECT COUNT(*) AS numParadas FROM tbl_paradas WHERE idRuta = '$ruteo->idRuteo'";
+                $resultNumParadas = mysqli_query($GLOBALS['conn'], $queryNumParadas);
+                $rowNumParadas = mysqli_fetch_array($resultNumParadas);
+                $ruteo->numParadas = $rowNumParadas['numParadas'];
+
                 array_push($array, $ruteo);
             }
 
@@ -153,6 +207,12 @@ class tbl_ruteo
                 $ruteo->feEntrega = $row['feEntrega'];
                 $ruteo->idEstatus = $row['idEstatus'];
                 $ruteo->idCategoria = $row['idCategoria'];
+
+                $queryNumParadas = "SELECT COUNT(*) AS numParadas FROM tbl_paradas WHERE idRuta = '$ruteo->idRuteo'";
+                $resultNumParadas = mysqli_query($GLOBALS['conn'], $queryNumParadas);
+                $rowNumParadas = mysqli_fetch_array($resultNumParadas);
+                $ruteo->numParadas = $rowNumParadas['numParadas'];
+
                 array_push($array, $ruteo);
             }
 
@@ -218,6 +278,17 @@ class tbl_ruteo
         try {
             //prevent sql injection
             $this->idRuteo = mysqli_real_escape_string($GLOBALS['conn'], $this->idRuteo);
+
+            $numParadas = 0;
+            $queryNumParadas = "SELECT COUNT(*) AS numParadas FROM tbl_paradas WHERE idRuta = '$this->idRuteo'";
+            $resultNumParadas = mysqli_query($GLOBALS['conn'], $queryNumParadas);
+            $rowNumParadas = mysqli_fetch_array($resultNumParadas);
+            $numParadas = $rowNumParadas['numParadas'];
+
+            if($numParadas > 0){
+                Utils::Response(0, "No se puede eliminar el registro, ya que tiene paradas asociadas", null);
+                return;
+            }
 
             $query = "DELETE FROM tbl_ruteo WHERE idRuteo = '$this->idRuteo'";
             $result = mysqli_query($GLOBALS['conn'], $query);

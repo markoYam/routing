@@ -4,12 +4,23 @@ import 'package:routing_app/data/model/categorias_model.dart';
 class RutasModel {
   final String idRuteo;
   final String nbRuteo;
-  final DateTime feRegistro;
-  final DateTime feEntrega;
+  final String feRegistro;
+  final String feEntrega;
   final String idEstatus;
   final String idCategoria;
   //final Estatus estatus;
   final CategoriasModel categoria;
+  final String numParadas;
+
+  String getFechaCortaEntrega() {
+    //return Utils.getFechaCorta(this.feEntrega);
+    return this.feEntrega;
+  }
+
+  String getFechaCortaRegistro() {
+    //return Utils.getFechaCorta(this.feRegistro);
+    return this.feRegistro;
+  }
 
   RutasModel({
     required this.idRuteo,
@@ -20,17 +31,19 @@ class RutasModel {
     required this.idCategoria,
     //required this.estatus,
     required this.categoria,
+    required this.numParadas,
   });
 
   RutasModel copyWith({
     String? idRuteo,
     String? nbRuteo,
-    DateTime? feRegistro,
-    DateTime? feEntrega,
+    String? feRegistro,
+    String? feEntrega,
     String? idEstatus,
     String? idCategoria,
     //Estatus? estatus,
     CategoriasModel? categoria,
+    String? numParadas,
   }) =>
       RutasModel(
         idRuteo: idRuteo ?? this.idRuteo,
@@ -41,6 +54,7 @@ class RutasModel {
         idCategoria: idCategoria ?? this.idCategoria,
         //estatus: estatus ?? this.estatus,
         categoria: categoria ?? this.categoria,
+        numParadas: numParadas ?? this.numParadas,
       );
 
   factory RutasModel.fromJson(dynamic json) => RutasModel(
@@ -48,11 +62,11 @@ class RutasModel {
         nbRuteo: Utils.convertDynamicToType(json["nbRuteo"], defaultValue: ''),
         feRegistro: Utils.convertDynamicToType(
           json["feRegistro"],
-          defaultValue: DateTime.now(),
+          defaultValue: DateTime.now().toshortString(),
         ),
         feEntrega: Utils.convertDynamicToType(
           json["feEntrega"],
-          defaultValue: DateTime.now(),
+          defaultValue: DateTime.now().toshortString(),
         ),
         idEstatus: Utils.convertDynamicToType(
           json["idEstatus"],
@@ -69,18 +83,21 @@ class RutasModel {
             defaultValue: {},
           ),
         ),
+        numParadas: Utils.convertDynamicToType(
+          json["numParadas"],
+          defaultValue: '0',
+        ),
       );
 
   Map<String, dynamic> toJson() => {
         "idRuteo": idRuteo,
         "nbRuteo": nbRuteo,
-        "feRegistro":
-            "${feRegistro.year.toString().padLeft(4, '0')}-${feRegistro.month.toString().padLeft(2, '0')}-${feRegistro.day.toString().padLeft(2, '0')}",
-        "feEntrega":
-            "${feEntrega.year.toString().padLeft(4, '0')}-${feEntrega.month.toString().padLeft(2, '0')}-${feEntrega.day.toString().padLeft(2, '0')}",
+        "feRegistro": feRegistro,
+        "feEntrega": feEntrega,
         "idEstatus": idEstatus,
         "idCategoria": idCategoria,
         //"estatus": estatus.toJson(),
-        "categoria": categoria.toJson(),
+        //"categoria": categoria.toJson(),
+        //"numParadas": numParadas,
       };
 }

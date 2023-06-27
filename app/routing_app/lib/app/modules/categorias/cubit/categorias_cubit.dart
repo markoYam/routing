@@ -1,14 +1,15 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
+import 'package:routing_app/core/utils/utils.dart';
 import 'package:routing_app/data/model/categorias_model.dart';
 import 'package:routing_app/data/provider/categorias_provider.dart';
 import 'package:routing_app/widgets/custom_dialog_widget.dart';
 
-part 'home_state.dart';
+part 'categorias_state.dart';
 
-class HomeCubit extends Cubit<HomeState> {
-  HomeCubit() : super(HomeState());
+class CategoriasCubit extends Cubit<HomeState> {
+  CategoriasCubit() : super(HomeState());
 
   final iHomeProvider = HomeProvider();
 
@@ -41,36 +42,26 @@ class HomeCubit extends Cubit<HomeState> {
         categorias: response.data,
         status: HomeStatus.success,
       ));
-      showdialog(context, true, response.message, true);
+      //showdialog(context, true, response.message, true);
+      Utils.showdialog(
+        context2: context,
+        success: true,
+        mgs: response.message,
+        goBack: true,
+      );
     } else {
       emit(state.copyWith(
         categorias: [],
         status: HomeStatus.error,
       ));
-      showdialog(context, false, response.message, false);
+      //showdialog(context, false, response.message, false);
+      Utils.showdialog(
+        context2: context,
+        success: false,
+        mgs: response.message,
+        goBack: false,
+      );
     }
-  }
-
-  void showdialog(
-      BuildContext context2, bool success, String mgs, bool goBack) {
-    showDialog(
-      context: context2,
-      builder: (context) {
-        return CustomDialog(
-          title: 'Categoría',
-          message: mgs,
-          showCancel: false,
-          type: success ? DialogType.success : DialogType.error,
-          onPressedOK: () {
-            Navigator.pop(context);
-            if (goBack) {
-              Navigator.pop(context);
-            }
-          },
-          onPressedCancel: () => null,
-        );
-      },
-    );
   }
 
   Future<void> _deleteCategoria(
@@ -83,13 +74,23 @@ class HomeCubit extends Cubit<HomeState> {
     );
     if (response.status == 1) {
       getCategorias();
-      showdialog(context, true, response.message, false);
+      Utils.showdialog(
+        context2: context,
+        success: true,
+        mgs: response.message,
+        goBack: false,
+      );
     } else {
       emit(state.copyWith(
         categorias: [],
         status: HomeStatus.error,
       ));
-      showdialog(context, false, response.message, false);
+      Utils.showdialog(
+        context2: context,
+        success: false,
+        mgs: response.message,
+        goBack: false,
+      );
     }
   }
 
@@ -128,13 +129,24 @@ class HomeCubit extends Cubit<HomeState> {
         categorias: response.data,
         status: HomeStatus.success,
       ));
-      showdialog(context, true, response.message, true);
+      //showdialog(context, true, response.message, true);
+      Utils.showdialog(
+        context2: context,
+        success: true,
+        mgs: response.message,
+        goBack: true,
+      );
     } else {
       emit(state.copyWith(
         categorias: [],
         status: HomeStatus.error,
       ));
-      showdialog(context, false, response.message, false);
+      Utils.showdialog(
+        context2: context,
+        success: false,
+        mgs: response.message,
+        goBack: false,
+      );
     }
   }
 }

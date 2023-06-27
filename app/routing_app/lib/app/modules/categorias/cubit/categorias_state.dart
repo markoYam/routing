@@ -1,4 +1,4 @@
-part of 'home_cubit.dart';
+part of 'categorias_cubit.dart';
 
 class HomeState extends Equatable {
   HomeState({

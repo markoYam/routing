@@ -15,7 +15,7 @@ switch ($action) {
         $paradas->getAll();
         break;
     case 'getById':
-        $paradas->idRuteo =  $_GET['idRuteo'];
+        $paradas->idRuta =  $_GET['idRuta'];
         $paradas->getById();
         break;
     case 'getByRuta':
@@ -37,7 +37,7 @@ switch ($action) {
         updateParada();
         break;
     case 'Delete':
-        $paradas->idRuteo =  $_GET['idRuteo'];
+        $paradas->idParada =  $_GET['idParada'];
         $paradas->delete();
         break;
     default:
@@ -71,7 +71,7 @@ function createParada()
         $paradas->dcTotal = $obj['dcTotal'];
 
 
-        $ruteo->Create();
+        $paradas->Create();
     } catch (Exception $e) {
         Utils::Response(0, "Error al crear el registro: " . $e, null);
     }

@@ -16,7 +16,7 @@ class DioSingleton {
 
   //static late final Dio dioSecure;
 
-  static String _baseUrl = 'https://192.168.1.100/routing/api/';
+  static String _baseUrl = 'https://192.168.1.33/routing/api/';
   static void createDio() {
     if (initSingletonbool) {
       dio = Dio(

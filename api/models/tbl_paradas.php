@@ -1,6 +1,6 @@
 <?php 
 include '../config.php'; 
-
+include 'tbl_estatus.php';
 class tbl_paradas{
 
     public $idParada;
@@ -15,6 +15,7 @@ class tbl_paradas{
     public $dcPrecioCompra;
     public $dcPrecioVenta;
     public $dcTotal;
+    public $estatus;
 
     function __construct()
     {
@@ -43,7 +44,7 @@ class tbl_paradas{
                 $paradas->dcPrecioVenta = $row['dcPrecioVenta'];
                 $paradas->dcTotal = $row['dcTotal'];
                 
-                $queryEstatus = "SELECT * FROM tbl_estatus WHERE idEstatus = '$ruteo->idEstatus'";
+                $queryEstatus = "SELECT * FROM tbl_estatus WHERE idEstatus = '$paradas->idEstatus'";
 
                 $resultEstatus = mysqli_query($GLOBALS['conn'], $queryEstatus);
                 
@@ -53,9 +54,9 @@ class tbl_paradas{
                     $estatus->nbEstatus = $rowEstatus['nbEstatus'];
                     $estatus->nbModulo = $rowEstatus['nbModulo'];
 
-                    $ruteo->estatus = $estatus;
+                    $paradas->estatus = $estatus;
                 }
-                array_push($array, $ruteo);
+                array_push($array, $paradas);
             }
 
             if (count($array) == 0) {

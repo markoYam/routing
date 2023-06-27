@@ -19,6 +19,10 @@ switch ($action) {
         $ruteo->idRuteo =  $_GET['idRuteo'];
         $ruteo->getById();
         break;
+    case 'getByIdCategoria':
+        $ruteo->idCategoria =  $_GET['idCategoria'];
+        $ruteo->getByIdCategoria();
+        break;
     case 'Create':
         createRuteo();
         break;
